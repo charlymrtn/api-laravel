@@ -22,4 +22,10 @@ class Car extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function user()
+    {
+      // code...
+      return $this->belongsTo('App\User','user_id');
+    }
 }

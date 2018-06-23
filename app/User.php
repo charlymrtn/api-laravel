@@ -31,4 +31,10 @@ class User extends Authenticatable
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function cars()
+    {
+      // code...
+      return $this->hasMany('App\Car','user_id');
+    }
 }
