@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use App\User;
 use DB;
 
+use App\Helpers\JwtAuth as Jwt;
+
 class UserController extends Controller
 {
     //
@@ -31,7 +33,7 @@ class UserController extends Controller
             'name' => $name,
             'role' => $role,
             'email' => $email,
-            'password' => Hash::make($password),
+            'password' => hash('sha256',$password),
           ]);
 
           $data = ['status' => 'correct', 'code' => 200, 'message'=>'usuario registrado','user'=> $user->email];
@@ -53,6 +55,30 @@ class UserController extends Controller
     public function login(Request $request)
     {
       // code...
-      echo 'accion login'; die();
+      $jwt = new Jwt();
+
+      $json = $request->input('json',null);
+
+      $params = json_decode($json);
+
+      $email = (!is_null($json) && isset($params->email)) ? $params->email : null;
+      $password = (!is_null($json) && isset($params->password)) ? $params->password : null;
+      $getToken = (!is_null($json) && isset($params->token)) ? $params->token : null;
+
+      $pwd = hash('sha256',$password);
+      //$pwd = $password;
+
+      if (!is_null($email) && !is_null($pwd) && (is_null($getToken) || $getToken == 'false')) {
+        // code...
+        $signUp = $jwt->signUp($email,$pwd);
+
+      }elseif (!is_null($getToken)) {
+        $signUp = $jwt->signUp($email,$pwd,$getToken);
+
+      }else{
+        $signUp = ['status' => 'error','message' => 'envia tus datos por post'];
+      }
+
+      return response()->json($signUp,200);
     }
 }

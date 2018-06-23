@@ -20,4 +20,4 @@ use Illuminate\Http\Request;
 Route::post('register','UserController@register')->name('register');
 Route::post('login','UserController@login')->name('login');
 
-Route::resource('cars','CarController')->except(['create','edit','destroy']);
+Route::resource('cars','CarController')->except(['create','edit']);

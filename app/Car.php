@@ -18,7 +18,7 @@ class Car extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'title', 'description','price',
+        'user_id', 'title', 'description','price', 'status'
     ];
 
     protected $dates = ['deleted_at'];
