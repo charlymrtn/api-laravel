@@ -162,6 +162,8 @@ return [
 
         App\Providers\JwtAuthServiceProvider::class,
 
+        Barryvdh\Cors\ServiceProvider::class,
+
     ],
 
     /*
