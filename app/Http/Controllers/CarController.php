@@ -85,9 +85,14 @@ class CarController extends Controller
     public function show($id)
     {
         //
+      $car = Car::find($id);
+      if (is_object($car)) {
+        # code...
         $car = Car::find($id)->load('user');
-
         return response()->json(['status'=>'success','car'=> $car],200);
+      }else{
+        return response()->json(['status'=>'error','message'=> 'el coche no existe'],401);
+      }
     }
 
 
